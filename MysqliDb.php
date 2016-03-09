@@ -1844,9 +1844,11 @@ class MysqliDb
             return false;
         }
 
-        array_walk($tables, function (&$value, $key) {
+        function walk (&$value, $key) {
             $value = self::$prefix . $value;
-        });
+        }
+
+        array_walk($tables, 'walk' );
         $this->where('table_schema', $this->db);
         $this->where('table_name', $tables, 'IN');
         $this->get('information_schema.tables', $count);
